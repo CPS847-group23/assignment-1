@@ -14,7 +14,14 @@ router.post('/shrimp', function(req, res, next) {
 router.post('/shrimp_echo', function(req, res, next) {
   if (req.body.text === "secret") {
     res.send("you found the secret function!");
-  } else {
+  } 
+  else if (req.body.text === "hi" || req.body.text === "hello" || req.body.text === "hola") {
+  	res.send("sup brew ~_*");
+  }
+  else if (req.body.text === "bye") {
+  	res.send("farewell");
+  }
+  else {
     res.send(req.body.text);
   }
 });
