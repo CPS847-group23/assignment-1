@@ -10,6 +10,7 @@ The Shrimp echo bot requires you to run the API locally and forward HTTP request
 The slash command url changes each time you start ngrok, so the endpoint needs to be changed each time at `https://api.slack.com/apps/ATBRYLD6K`
 
 To run the bot:
+* Add `shrimp_config.json` to the `shrimp_bot/config` folder
 * When inside `shrimp_bot` dir, use `npm install` to install dependencies
 * start ngrok using : `ngrok http 3000`
 * Modify the slash command to use the url from ngrok. For example: `http://a7aa3003.ngrok.io/shrimp_echo`
