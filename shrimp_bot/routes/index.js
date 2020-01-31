@@ -12,6 +12,7 @@ router.get('/', function(req, res, next) {
 
 /* POST shrimp bot. */
 router.post('/shrimp', function(req, res, next) {
+  if (req.body.challenge) res.json({"challenge":req.body.challenge});
   let user_id = req.body.event.user;
   let user_msg = req.body.event.text;
   user_msg = user_msg.split("<@"+shrimp_id+">")[1];
@@ -30,7 +31,6 @@ router.post('/shrimp', function(req, res, next) {
           }
       }
   );
-  res.json({"challenge":req.body.challenge});
 });
 
 router.post('/shrimp_echo', function(req, res, next) {
