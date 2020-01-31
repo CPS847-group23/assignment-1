@@ -89,7 +89,7 @@ let is_city = (text) => {
 }
 
 let celcius = (temp) => {
-  return temp - kelvin;
+  return round(temp - kelvin,1);
 }
 
 module.exports = router;
