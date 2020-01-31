@@ -21,7 +21,7 @@ router.post('/shrimp', (req, res, next) => {
   let reply_msg = {json: {"text": "<@" + user_id + "> "}};
 
   if (is_city(user_msg)) {
-    let city = "toronto"; // TODO; use logic to fill this in
+    let city = "Miami"; // TODO; use logic to fill this in
     let api_url = "http://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=" + owmkey;
     request.get(
       api_url,
@@ -32,7 +32,7 @@ router.post('/shrimp', (req, res, next) => {
           let humidity = a.main.humidity;
           let temp_min = celcius(a.main.temp_min);
           let temp_max = celcius(a.main.temp_max);
-          let temp_weather = "The current temperature in " + city + " is: " + temp + "C; the daily high and low is " + temp_min + " and " + temp_max + ",respectively. The humidity is: " + humidity;
+          let temp_weather = "The current temperature in " + city + " is: " + temp + "C; the daily high and low is " + temp_min + " and " + temp_max + ", respectively. The humidity is: " + humidity;
 
           reply_msg.json.text += temp_weather;
           request.post(
@@ -89,7 +89,7 @@ let is_city = (text) => {
 }
 
 let celcius = (temp) => {
-  return round(temp - kelvin,1);
+  return Math.round(temp - kelvin,1);
 }
 
 module.exports = router;
