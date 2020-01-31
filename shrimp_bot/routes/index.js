@@ -21,7 +21,7 @@ router.post('/shrimp', (req, res, next) => {
   let reply_msg = {json: {"text": "<@" + user_id + "> "}};
 
   if (is_city(user_msg)) {
-    let city = "Miami"; // TODO; use logic to fill this in
+    let city = user_msg.trim(); // TODO; use logic to fill this in
     let api_url = "http://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=" + owmkey;
     request.get(
       api_url,
