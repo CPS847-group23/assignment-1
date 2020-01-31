@@ -5,7 +5,14 @@ const shrimp = require('../config/shrimp_config');
 const shrimp_id = shrimp.id;
 const hook_url = shrimp.hook_url;
 const owmkey = shrimp.owm_apikey;
-let temp_weather = '{"coord":{"lon":-0.13,"lat":51.51},"weather":[{"id":300,"main":"Drizzle","description":"light intensity drizzle","icon":"09d"}],"base":"stations","main":{"temp":280.32,"pressure":1012,"humidity":81,"temp_min":279.15,"temp_max":281.15},"visibility":10000,"wind":{"speed":4.1,"deg":80},"clouds":{"all":90},"dt":1485789600,"sys":{"type":1,"id":5091,"message":0.0103,"country":"GB","sunrise":1485762037,"sunset":1485794875},"id":2643743,"name":"London","cod":200}'
+
+let temp = a.main.temp - 273.15;
+let humidity = a.main.humidity;
+let temp_min = a.main.temp_min;
+let temp_max = a.main.temp_max;
+let temp_weather = "The current temperature in " + city + " is: " + temp + "C; the daily high and low is " + temp_min + " and " + temp_max + ",respectively. The humidity is: " + humidity;
+
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
