@@ -31,6 +31,7 @@ router.post('/shrimp', function(req, res, next) {
           }
       }
   );
+  res.json({"message":"okay"});
 });
 
 router.post('/shrimp_echo', function(req, res, next) {
