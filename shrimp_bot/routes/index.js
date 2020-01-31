@@ -5,22 +5,15 @@ const shrimp = require('../config/shrimp_config');
 const shrimp_id = shrimp.id;
 const hook_url = shrimp.hook_url;
 const owmkey = shrimp.owm_apikey;
-
-let temp = a.main.temp - 273.15;
-let humidity = a.main.humidity;
-let temp_min = a.main.temp_min;
-let temp_max = a.main.temp_max;
-let temp_weather = "The current temperature in " + city + " is: " + temp + "C; the daily high and low is " + temp_min + " and " + temp_max + ",respectively. The humidity is: " + humidity;
-
-
+const kelvin = 273.15;
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', (req, res, next) => {
   res.render('index', { title: 'Express' });
 });
 
 /* POST shrimp bot. */
-router.post('/shrimp', function(req, res, next) {
+router.post('/shrimp', (req, res, next) => {
   if (req.body.challenge) res.json({"challenge":req.body.challenge});
   let user_id = req.body.event.user;
   let user_msg = req.body.event.text;
@@ -32,19 +25,25 @@ router.post('/shrimp', function(req, res, next) {
     let api_url = "http://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=" + owmkey;
     request.get(
       api_url,
-      function (error, response, body) {
+      (error, response, body) => {
         if (!error && response.statusCode == 200) {
-          reply_msg.json.text += JSON.stringify(response);
+          let a = JSON.parse(response.body);
+          let temp = celcius(a.main.temp);
+          let humidity = a.main.humidity;
+          let temp_min = celcius(a.main.temp_min);
+          let temp_max = celcius(a.main.temp_max);
+          let temp_weather = "The current temperature in " + city + " is: " + temp + "C; the daily high and low is " + temp_min + " and " + temp_max + ",respectively. The humidity is: " + humidity;
+
+          reply_msg.json.text += temp_weather;
           request.post(
             hook_url,
             reply_msg,
-            function (error, response, body) {
+            (error, response, body) => {
               if (!error && response.statusCode == 200) {
                 console.log(body);
               }
             }
           );
-          console.log("sent request");
         }
         else {
           console.log("error: " + error);
@@ -60,7 +59,7 @@ router.post('/shrimp', function(req, res, next) {
     request.post(
         hook_url,
         reply_msg,
-        function (error, response, body) {
+        (error, response, body) => {
             if (!error && response.statusCode == 200) {
                 console.log(body);
             }
@@ -70,7 +69,7 @@ router.post('/shrimp', function(req, res, next) {
   res.json({"message":"okay"});
 });
 
-router.post('/shrimp_echo', function(req, res, next) {
+router.post('/shrimp_echo', (req, res, next) => {
   if (req.body.text === "secret") {
     res.send("you found the secret function!");
   } 
@@ -84,7 +83,13 @@ router.post('/shrimp_echo', function(req, res, next) {
     res.send(req.body.text);
   }
 });
-function is_city(text) {
+
+let is_city = (text) => {
   return true;
 }
+
+let celcius = (temp) => {
+  return temp - kelvin;
+}
+
 module.exports = router;
