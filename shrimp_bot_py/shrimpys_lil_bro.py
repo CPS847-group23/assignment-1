@@ -1,9 +1,10 @@
 import re
 from slackclient import SlackClient
 
-# CPS-847-Bot Slack
-BOT_TOKEN = 'xoxb-909956519766-921274510914-XWUNk4HAEyoVCGO7EcNaMAyR'
-WEATHER_API_TOKEN = '13fd9956f71f6bd85a8354ac2a09ded4'
+# credentials = 
+# # CPS-847-Bot Slack
+# BOT_TOKEN = credentials
+# WEATHER_API_TOKEN = credentials
 
 client = slack.WebClient(BOT_TOKEN, timeout=30)
 weather_url = 'api.openweathermap.org/data/2.5/weather?q=' #+{city name}
@@ -18,12 +19,12 @@ def weather(city):
 	response = requests.get(weather_city_url)
 	json_res = response.json()
 
-	if json_res.status_code == 404:
-		print('404 error')
-	else:
+	if json_res.status_code == 200:
 		city = json_res['name']
 		temp = round(json_res['name']['temp'] - 273, 1)
 		humidity = json_res['name']['humidity']
+	else:
+		return None
 
 	return str(city), str(temp), str(humidity)
 
@@ -54,16 +55,22 @@ if __name__ == "__main__":
             command, channel = parse_bot_commands(slack_client.rtm_read())
 
             if command:
-                slack_client.api_call (
-                    "chat.postMessage",
-                    text=command,
-                    channel=channel
-                    )
-            else:
-            	#where weather info returned
+                client.api_call (
+                #     "chat.postMessage",
+                #     text=command,
+                #     channel=channel
+                #     )
+                # if != None
+                	client.chat_postEphemeral(
+  					channel=channel,
+  					text="Hello silently from your app! :tada:",
+  					user=user
+  					)
+)
+            # else:
+            # 	city, temp, hum = weather(command):
 
-
-            		)
+            # 		)
 
             time.sleep(RTM_READ_DELAY)
     else:
