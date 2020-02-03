@@ -19,6 +19,13 @@ To run the bot locally:
 * If you type the name of a city, shrimp bot will send you the weather
 * If the city isn't found, NLP will be applied to attempt to correct your spelling
 
+## Deploying on AWS
+* Whitelist your IP for SSH access
+* SSH into the server using the .pem key. Message `@matt` on slack to get server credentials
+* Stop the running process: `sudo forever stopall`
+* CD into assignment-1 and get the latest production release: `git pull`
+* Start the app again: `sudo forever start -c "npm start" ./ `
+
 ## Authors
 * **Brian Kenney** - *Team member* - [BKMotoz](https://github.com/BKmotoz)
 * **Matthew Ham** - *Team member* - [matthewninja](https://github.com/matthewninja)
