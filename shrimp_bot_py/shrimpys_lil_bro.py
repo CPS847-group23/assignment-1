@@ -1,10 +1,10 @@
 import re
 from slackclient import SlackClient
 
-# credentials = 
+creds = /Users/bk/Desktop/creds.json
 # # CPS-847-Bot Slack
-# BOT_TOKEN = credentials
-# WEATHER_API_TOKEN = credentials
+BOT_TOKEN = creds["BOT_TOKEN"]
+WEATHER_API_TOKEN = creds["WEATHER_API_TOKEN"]
 
 client = slack.WebClient(BOT_TOKEN, timeout=30)
 weather_url = 'api.openweathermap.org/data/2.5/weather?q=' #+{city name}
