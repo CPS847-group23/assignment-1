@@ -19,19 +19,4 @@ router.post('/shrimp', (req, res, next) => {
   }
 });
 
-router.post('/shrimp_echo', (req, res, next) => {
-  if (req.body.text === "secret") {
-    res.send("you found the secret function!");
-  } 
-  else if (req.body.text === "hi" || req.body.text === "hello" || req.body.text === "hola") {
-  	res.send("sup brew ~_*");
-  }
-  else if (req.body.text === "bye") {
-  	res.send("farewell");
-  }
-  else {
-    res.send(req.body.text);
-  }
-});
-
 module.exports = router;

@@ -16,18 +16,12 @@ let handle = (req) => {
   if (is_city(user_msg)) {
     weather_reply(user_msg, reply_msg);
   } else {
-    if (user_msg.includes("secret")) {
-      reply_msg.json.text += " you found the secret!!";
-    } else {
-      reply_msg.json.text += user_msg;
-    }
-    slack_reply(hook_url, reply_msg);
+    echo_reply(user_msg, reply_msg);
   }
-
 }
 
 /* Send a reply on Slack */
-let slack_reply = (hook_url, reply_msg) => {
+let slack_reply = (reply_msg) => {
   request.post(
       hook_url,
       reply_msg,
@@ -47,21 +41,36 @@ let weather_reply = (user_msg, reply_msg) => {
     api_url,
     (error, response, body) => {
       if (!error && response.statusCode == 200) {
-        let a = JSON.parse(response.body);
-        let temp = celcius(a.main.temp);
-        let humidity = a.main.humidity;
-        let temp_min = celcius(a.main.temp_min);
-        let temp_max = celcius(a.main.temp_max);
-        let temp_weather = "The current temperature in " + city + " is: " + temp + "C; the daily high and low is " + temp_max + "C and " + temp_min + "C, respectively. The humidity is: " + humidity;
+        let a = JSON.parse(response.body),
+            temp = celcius(a.main.temp),
+            humidity = a.main.humidity,
+            temp_min = celcius(a.main.temp_min),
+            temp_max = celcius(a.main.temp_max),
+            temp_weather = "The current temperature in " + city + " is: " + temp + "C; the daily high and low is " + temp_max + "C and " + temp_min + "C, respectively. The humidity is: " + humidity;
 
         reply_msg.json.text += temp_weather;
-        slack_reply(hook_url, reply_msg);
-      }
-      else {
+        slack_reply(reply_msg);
+      } else {
+        /* City not found, just echo the message */
         console.log("error: " + error);
+        echo_reply(user_msg, reply_msg);
       }
     }
   );
+}
+
+let echo_reply = (user_msg, reply_msg) => {
+  console.log("echoing: "+ user_msg);
+  if (user_msg.includes("secret")) {
+    reply_msg.json.text += "you found the secret function!";
+  } else if (user_msg.trim() === "hi" || user_msg.trim() === "hello" || user_msg.trim() === "hola") {
+    reply_msg.json.text += "sup brew ~_*";
+  } else if (user_msg.trim() === "bye") {
+    reply_msg.json.text += "farewell";
+  } else {
+    reply_msg.json.text += user_msg;
+  }
+  slack_reply(reply_msg);
 }
 
 let celcius = (temp) => {
@@ -73,5 +82,5 @@ let is_city = (text) => {
 }
 
 module.exports = {
-  handle, slack_reply, weather_reply
+  handle
 }
