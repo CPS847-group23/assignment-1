@@ -10,11 +10,13 @@
     "constantinople": ">=3.1.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dictionary": "^1.0.2",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "ngrok": "^3.2.7",
     "pug": "^2.0.4",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "spelling": "^2.0.2"
   }
 }
