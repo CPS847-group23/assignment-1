@@ -1,5 +1,8 @@
 // shrimpy.js
-let request = require('request');
+const request = require('request');
+const spelling = require('spelling');
+const dictionary = require('../node_modules/spelling/dictionaries/en_US.js');
+const dict = new spelling(dictionary);
 const shrimp_config = require('../config/shrimp_config');
 const shrimp_id = shrimp_config.id;
 const hook_url = shrimp_config.hook_url;
@@ -36,6 +39,11 @@ let slack_reply = (reply_msg) => {
 /* Handle a weather message */
 let weather_reply = (user_msg, reply_msg) => {
   let city = user_msg.trim();
+  /* Run NLP spell-check */
+  let nlp = dict.lookup(city);
+  if (!nlp.found && nlp.suggestions[0]) {
+    city = nlp.suggestions[0].word;
+  }
   let api_url = "http://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=" + owmkey;
   request.get(
     api_url,
